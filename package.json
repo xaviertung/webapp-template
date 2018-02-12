@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --progress --colors",
-    "build": "webpack --progress --colors",
+    "start": "webpack-dev-server --open --progress --inline --hot --config webpack.dev.js",
+    "build": "webpack --progress --colors --config webpack.prod.js",
+    "devDll": "webpack --progress --colors --config webpack.devDll.js",
+    "prodDll": "webpack --progress --colors --config webpack.prodDll.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,7 +16,10 @@
     "babel-loader": "^7.1.2",
     "css-loader": "^0.28.9",
     "extract-text-webpack-plugin": "^3.0.2",
+    "html-webpack-include-assets-plugin": "^1.0.2",
     "html-webpack-plugin": "^2.30.1",
+    "lodash": "^4.17.5",
+    "moment": "^2.20.1",
     "style-loader": "^0.20.1",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.1"
