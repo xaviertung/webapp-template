@@ -59,7 +59,7 @@ module.exports = webpackMerge(webpackCommons, {
   plugins: [
     new webpack.DllReferencePlugin({
       context: __dirname,
-      manifest: require('./dll/manifest.json')
+      manifest: require('./dev-dll/manifest.json')
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/index.html'), //html模板路径
@@ -68,9 +68,9 @@ module.exports = webpackMerge(webpackCommons, {
       cache:false,
     }),
     new HtmlWebpackIncludeAssetsPlugin({
-      assets: ['dll/vendor.js'],
+      assets: [{ path: 'dev-dll', glob: '*.js', globPath: 'dev-dll/' }],
       append: false,
-      hash: true,
+      hash: false,
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // 开发环境

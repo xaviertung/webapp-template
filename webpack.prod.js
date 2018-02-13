@@ -82,7 +82,7 @@ module.exports = webpackMerge(webpackCommon, {
     }),
     new webpack.DllReferencePlugin({
       context: __dirname,
-      manifest: require('./dll/manifest.prod.json')
+      manifest: require('./prod-dll/manifest.prod.json')
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/index.html'), //html模板路径
@@ -90,9 +90,9 @@ module.exports = webpackMerge(webpackCommon, {
       hash: true,
     }),
     new HtmlWebpackIncludeAssetsPlugin({
-      assets: ['vendor.prod.js'],
+      assets: [{ path: 'lib', glob: '*.js', globPath: 'prod-dll/' }],
       append: false,
-      hash: true,
+      hash: false,
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.HashedModuleIdsPlugin(),
@@ -110,8 +110,10 @@ module.exports = webpackMerge(webpackCommon, {
       },
     }),
     new CopyWebpackPlugin([{
-      from: 'dll/vendor.prod.js',
-      to: 'vendor.prod.js',
+      from: path.resolve(__dirname, './prod-dll'),
+      to: path.resolve(__dirname, './dist/lib'),
+      toType: 'dir',
+      ignore: ['*.json'],
     }]),
   ],
   resolve: {

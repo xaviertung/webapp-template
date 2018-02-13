@@ -1,18 +1,20 @@
 const path = require('path');
 const webpack = require('webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   entry: {
     vendor: ['lodash', 'moment'],
   },
   output: {
-    path: path.resolve(__dirname, 'dll'),
-    filename: '[name].js',
+    path: path.resolve(__dirname, 'dev-dll'),
+    filename: '[name].[hash].js',
     library: '[name]_[hash]',
   },
   plugins: [
+    new CleanWebpackPlugin(['dev-dll']),
     new webpack.DllPlugin({
-      path: path.join(__dirname, 'dll', 'manifest.json'),
+      path: path.join(__dirname, 'dev-dll', 'manifest.json'),
       name: '[name]_[hash]',
       context: __dirname,
     }),

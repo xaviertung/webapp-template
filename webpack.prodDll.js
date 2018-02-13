@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const LessPluginCleanCSS = require('less-plugin-clean-css');
 const LessPluginAutoPrefix = require('less-plugin-autoprefix');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const sourcePath = path.resolve(__dirname, 'src');
 module.exports = {
@@ -9,8 +10,8 @@ module.exports = {
     vendor: ['lodash', 'moment'],
   },
   output: {
-    path: path.resolve(__dirname, 'dll'),
-    filename: '[name].prod.js',
+    path: path.resolve(__dirname, 'prod-dll'),
+    filename: '[name].[hash].js',
     library: '[name]_[hash]',
   },
   module: {
@@ -46,11 +47,12 @@ module.exports = {
     }],
   },
   plugins: [
+    new CleanWebpackPlugin(['prod-dll']),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh|en/),
 
     new webpack.DllPlugin({
-      path: path.join(__dirname, 'dll', 'manifest.prod.json'),
+      path: path.join(__dirname, 'prod-dll', 'manifest.prod.json'),
       name: '[name]_[hash]',
       context: __dirname,
     }),

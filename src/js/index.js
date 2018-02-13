@@ -1,3 +1,2 @@
-require('../css/index.css');
-document.write('Hello World1!');
-console.log('hi, world!')
+import '../css/index.css';
+console.log('hi, world!');
