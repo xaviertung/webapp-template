@@ -16,5 +16,10 @@ module.exports = {
       name: '[name]_[hash]',
       context: __dirname,
     }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.ContextReplacementPlugin(/moment[\/\\locale$]/, /zh|en/),
   ],
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
 };

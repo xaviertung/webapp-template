@@ -1,35 +1,58 @@
 const path = require('path');
 const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
+const LessPluginAutoPrefix = require('less-plugin-autoprefix');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 
-module.exports = {
-  entry: './src/js/index.js',
-  output: {
-    publicPath: '/',
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-  },
+const webpackCommons = require('./webpack.common.js');
+
+const sourcePath = path.resolve(__dirname, 'src');
+module.exports = webpackMerge(webpackCommons, {
   module: {
-    loaders: [
-      {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader',
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include: [path.resolve(__dirname, 'src')],
-      }
-    ],
     rules: [
       {
+        test: /\.jsx?$/,
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+          },
+        }],
+        include: [sourcePath],
+      }, {
         test: /\.css$/,
-        use: ExtractTextWebpackPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader', 
-        })
+        use: ['style-loader', 'css-loader'],
+        include: [sourcePath],
+      }, {
+        test: /\.less$/,
+        include: [sourcePath],
+        use: [{
+          loader: 'style-loader',
+        }, {
+          loader: 'css-loader',
+          options: {
+            sourceMap: true,
+          },
+        }, {
+          loader: 'less-loader',
+          options: {
+            sourceMap: true,
+            plugins: [
+              new LessPluginAutoPrefix()
+            ]
+          },
+        }],
+      }, {
+        test: /\.(png|svg|jpe?g|gif)$/,
+        include: [sourcePath],
+        use: [{
+          loader: 'url-loader',
+          options: {
+            limit: 8192,
+            name: 'images/[hash:8][name].[ext]',
+          },
+        }],
       },
     ],
   },
@@ -42,7 +65,7 @@ module.exports = {
       template: path.resolve(__dirname, 'src/index.html'), //html模板路径
       inject: 'body', // 是否将js放在body的末尾
       hash: true,
-      cache:false,veAttributeQuotes: true
+      cache:false,
     }),
     new HtmlWebpackIncludeAssetsPlugin({
       assets: ['dll/vendor.js'],
@@ -51,11 +74,6 @@ module.exports = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // 开发环境
-    // new webpack.HashedModuleIdsPlugin(),  // 生产环境
-    new ExtractTextWebpackPlugin({
-      filename: 'css/[name].css',
-      allChunks: true,
-    }),
   ],
   devServer: {
     publicPath: '/',
@@ -74,4 +92,4 @@ module.exports = {
     //   components: path.resolve(__dirname, 'src/components/'),
     // }
   }
-};
+});
