@@ -3,7 +3,8 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    'app': './src/js/index.js',
+    'home': './src/Home/index.js',
+    'user-center': './src/UserCenter/index.js',
   },
   output: {
     publicPath: '/',

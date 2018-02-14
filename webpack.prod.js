@@ -84,10 +84,25 @@ module.exports = webpackMerge(webpackCommon, {
       context: __dirname,
       manifest: require('./prod-dll/manifest.prod.json')
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'common',
+      filename: 'common.js',
+    }),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src/index.html'), //html模板路径
+      template: path.resolve(__dirname, 'src/Home/index.html'), //html模板路径
+      filename: 'index.html',
+      chunks: ['common', 'home'],
       inject: 'body', // 是否将js放在body的末尾
       hash: true,
+      cache:false,
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'src/UserCenter/index.html'), //html模板路径
+      filename: 'user-center.html',
+      chunks: ['common', 'user-center'],
+      inject: 'body', // 是否将js放在body的末尾
+      hash: true,
+      cache:false,
     }),
     new HtmlWebpackIncludeAssetsPlugin({
       assets: [{ path: 'lib', glob: '*.js', globPath: 'prod-dll/' }],
