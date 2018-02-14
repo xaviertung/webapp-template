@@ -72,7 +72,7 @@ module.exports = webpackMerge(webpackCommons, {
       append: false,
       hash: false,
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),  // This setting or webpack-dev-server --hot
     new webpack.NamedModulesPlugin(), // 开发环境
   ],
   devServer: {
