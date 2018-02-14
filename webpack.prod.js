@@ -94,7 +94,6 @@ module.exports = webpackMerge(webpackCommon, {
       append: false,
       hash: false,
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.HashedModuleIdsPlugin(),
     new ParallelUglifyPlugin({
       cacheDir: '.cache/',
