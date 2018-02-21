@@ -93,7 +93,7 @@ module.exports = webpackMerge(webpackCommon, {
       hash: true,
     }),
     new HtmlWebpackIncludeAssetsPlugin({
-      assets: [{ path: 'lib', glob: '*.js', globPath: 'prod-dll/' }],
+      assets: [{ path: 'lib', glob: 'prod-dll/*.js' }],
       append: false,
       hash: false,
     }),
