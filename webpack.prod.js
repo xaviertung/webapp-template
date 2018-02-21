@@ -35,7 +35,10 @@ module.exports = webpackMerge(webpackCommon, {
         use: ExtractTextWebpackPlugin.extract({
           fallback: 'style-loader',
           use: [{
-            loader: 'css-loader'
+            loader: 'css-loader',
+            options: {
+              minimize: true,
+            },
           }], 
         }),
         include: [sourcePath],
