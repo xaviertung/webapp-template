@@ -14,11 +14,6 @@ const webpackCommon = require('./webpack.common.js');
 
 const sourcePath = path.resolve(__dirname, 'src');
 module.exports = webpackMerge(webpackCommon, {
-  output: {
-    publicPath: '/',
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-  },
   module: {
     rules: [
       {
@@ -93,7 +88,7 @@ module.exports = webpackMerge(webpackCommon, {
       hash: true,
     }),
     new HtmlWebpackIncludeAssetsPlugin({
-      assets: [{ path: 'lib', glob: 'prod-dll/*.js' }],
+      assets: [{ path: 'lib', glob: '*.js', globPath: 'prod-dll/' }],
       append: false,
       hash: false,
     }),
