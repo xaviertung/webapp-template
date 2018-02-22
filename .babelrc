@@ -11,7 +11,5 @@
       "regenerator": true,
       "moduleName": "babel-runtime"
     }
-  ],
-  "transform-object-assign"
-  ]
+  ]]
 }
